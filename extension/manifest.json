@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "name": "B站扣币榜",
+    "description": "当你觉得视频离谱时，给它来一发“扣币”，并记录到全网扣币榜。",
+    "version": "0.1.0",
+    "icons": {
+        "16": "assets/icon.png",
+        "48": "assets/icon.png",
+        "128": "assets/icon.png"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "host_permissions": [
+        "https://www.bilibili.com/*",
+        "https://api.bilibili.com/*",
+        "https://你的服务器域名/*",
+        "https://raw.githubusercontent.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.bilibili.com/video/*"
+            ],
+            "js": [
+                "content-script.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": "assets/icon.png"
+    },
+    "background": {
+        "service_worker": "utils/api.js",
+        "type": "module"
+    }
+}

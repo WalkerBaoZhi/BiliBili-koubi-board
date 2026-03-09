@@ -1,0 +1,34 @@
+<!-- popup placeholder -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>B站扣币榜</title>
+    <link rel="stylesheet" href="popup.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>扣币榜</h1>
+
+        <div class="tabs">
+            <button data-range="total" class="active">总榜</button>
+            <button data-range="day">日榜</button>
+            <button data-range="week">周榜</button>
+            <button data-range="month">月榜</button>
+        </div>
+
+        <div id="list" class="list"></div>
+
+        <div class="footer">
+            <a href="https://github.com/walkerbaozhi/bilibili-koubi-rank" target="_blank">
+                查看完整榜单
+            </a>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

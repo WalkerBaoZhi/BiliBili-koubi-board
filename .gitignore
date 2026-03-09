@@ -1,0 +1,59 @@
+# ============================
+#  Node / Server
+# ============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Environment variables
+.env
+server/.env
+*.env.local
+*.env.*.local
+
+# PM2 logs
+.pids
+*.pid
+*.seed
+*.pid.lock
+pm2.log
+pm2.pid
+
+# Build output
+dist/
+build/
+.cache/
+.temp/
+
+# ============================
+#  Browser Extension
+# ============================
+extension/node_modules/
+extension/dist/
+extension/build/
+
+# Chrome extension artifacts
+extension/*.crx
+extension/*.pem
+extension/*.zip
+
+# ============================
+#  OS / Editor files
+# ============================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.iml
+
+# ============================
+#  GitHub Pages cache
+# ============================
+.github/
+.cache/

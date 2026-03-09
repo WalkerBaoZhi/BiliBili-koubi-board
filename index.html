@@ -1,0 +1,33 @@
+<!-- ranking page placeholder -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>B站扣币榜</title>
+    <link rel="stylesheet" href="rank.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>全网扣币榜</h1>
+
+        <div class="tabs">
+            <button data-range="total" class="active">总榜</button>
+            <button data-range="day">日榜</button>
+            <button data-range="week">周榜</button>
+            <button data-range="month">月榜</button>
+        </div>
+
+        <div id="list" class="list"></div>
+
+        <div class="footer">
+            数据来源：
+            <a href="./data.json" target="_blank">data.json</a>
+        </div>
+    </div>
+
+    <script src="rank.js"></script>
+</body>
+
+</html>

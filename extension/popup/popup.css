@@ -1,0 +1,84 @@
+/* popup css placeholder */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.container {
+    width: 320px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 16px;
+    margin: 0 0 8px;
+}
+
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 4px 0;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.tabs button.active {
+    background: #00a1d6;
+    color: #fff;
+    border-color: #00a1d6;
+}
+
+.list {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.item {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+}
+
+.item-cover {
+    width: 60px;
+    height: 36px;
+    background: #ddd;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.item-main {
+    flex: 1;
+}
+
+.item-title {
+    font-size: 12px;
+    line-height: 1.3;
+    margin-bottom: 2px;
+}
+
+.item-meta {
+    font-size: 11px;
+    color: #666;
+}
+
+.footer {
+    margin-top: 6px;
+    text-align: right;
+}
+
+.footer a {
+    font-size: 11px;
+    color: #00a1d6;
+    text-decoration: none;
+}

@@ -1,5 +1,5 @@
 // api placeholder
-const SERVER_URL = "https://你的服务器域名/koubi";
+const SERVER_URL = "https://api.chihiro.host/koubi";
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.type === "KOU_BI") {

@@ -14,7 +14,7 @@
     "host_permissions": [
         "https://www.bilibili.com/*",
         "https://api.bilibili.com/*",
-        "https://你的服务器域名/*",
+        "https://api.chihiro.host/*",
         "https://raw.githubusercontent.com/*"
     ],
     "content_scripts": [

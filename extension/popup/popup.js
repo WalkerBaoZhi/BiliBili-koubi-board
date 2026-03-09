@@ -1,6 +1,6 @@
 // popup script placeholder
 const DATA_URL =
-    "https://raw.githubusercontent.com/你的用户名/bilibili-koubi-board/main/data.json";
+    "https://raw.githubusercontent.com/WalkerBaoZhi/bilibili-koubi-board/main/data.json";
 
 const listEl = document.getElementById("list");
 const tabs = document.querySelectorAll(".tabs button");

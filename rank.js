@@ -1,5 +1,5 @@
 // rank placeholder
-const DATA_URL = "./data.json";
+const DATA_URL = "https://api.chihiro.host/data.json";
 
 const listEl = document.getElementById("list");
 const tabs = document.querySelectorAll(".tabs button");

@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "B站扣币榜",
-    "description": "当你觉得视频离谱时，给它来一发“扣币”，并记录到全网扣币榜。",
-    "version": "0.1.0",
+    "description": "“UP要不你给我赔点钱吧！”，遇到这样的视频，你可以选择给它来一发“扣币”，表达你对作者的敬畏之情，这将会记录并生成全网扣币封神榜",
+    "version": "1.0",
     "icons": {
         "16": "assets/icon.png",
         "48": "assets/icon.png",
@@ -12,20 +12,28 @@
         "storage"
     ],
     "host_permissions": [
-        "https://www.bilibili.com/*",
-        "https://api.bilibili.com/*",
-        "https://api.chihiro.host/*",
-        "https://raw.githubusercontent.com/*"
+        "*://*.bilibili.com/*",
+        "https://api.chihiro.host/*"
     ],
     "content_scripts": [
         {
             "matches": [
-                "https://www.bilibili.com/video/*"
+                "*://*.bilibili.com/*"
             ],
             "js": [
                 "content-script.js"
             ],
             "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "https://www.bilibili.com/video/*"
+            ],
+            "js": [
+                "koubi-main.js"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
         }
     ],
     "action": {

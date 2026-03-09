@@ -1,3 +1,16 @@
 {
-    "records": {}
+  "records": {
+    "123": {
+      "title": "测试视频",
+      "cover": "",
+      "total": 1,
+      "history": [
+        {
+          "time": 1773055182513,
+          "amount": 1,
+          "reason": ""
+        }
+      ]
+    }
+  }
 }

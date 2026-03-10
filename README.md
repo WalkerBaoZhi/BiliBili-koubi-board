@@ -1,4 +1,4 @@
-<p style="text-align: center;">
+<p align="center">
     <img src="extension/assets/icon.png" alt="B站扣币榜" style="height: 100px; width: 100px;">
 </p>
 

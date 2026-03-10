@@ -4,27 +4,22 @@ console.log("Koubi MAIN script running");
  *  配置
  * ========================= */
 const KOUBI_API = "https://red-sun-7766.walkerbaozhi.workers.dev/koubi";
-const SECRET = "ajd82h1h2h1h2h1h2h1h2h1h2"; // 和 Worker 的 env.SECRET 一致
+// NOTE: 不再在客户端保存 SECRET（移除硬编码），直接信任前端并在客户端做速率限制
 const QUEUE_KEY = "koubi_offline_queue_v1";
+
+// 客户端速率限制配置（防止用户短时间内多次触发）
+const CLIENT_RATE_LIMIT = {
+    perVideoInterval: 10 * 60 * 1000, // 同一视频 10 分钟内只允许一次操作
+    globalInterval: 60 * 60 * 1000, // 全局窗口 1 小时
+    globalLimit: 20 // 全局窗口内最多允许 20 次操作
+};
+
+let clientSentHistory = []; // 全局发送时间戳数组
+const clientSentPerVideo = {}; // videoId -> lastSendTimestamp
 
 /** =========================
  *  工具：本地队列（离线缓存）
- * ========================= */
-function loadQueue() {
-    try {
-        const raw = localStorage.getItem(QUEUE_KEY);
-        return raw ? JSON.parse(raw) : [];
-    } catch {
-        return [];
-    }
-}
-
-function saveQueue(queue) {
-    try {
-        localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
-    } catch {
-        // 忽略
-    }
+// 客户端已移除签名逻辑（不再持有 SECRET）
 }
 
 function pushToQueue(item) {
@@ -54,35 +49,45 @@ async function hmacSHA256(key, message) {
  * ========================= */
 async function sendKoubi({ videoId, title, cover = "", amount = 1 }) {
     const timestamp = Date.now();
-    const message = videoId + timestamp;
-    const signature = await hmacSHA256(SECRET, message);
 
-    const payload = {
-        videoId,
-        title,
-        cover,
-        amount,
-        timestamp,
-        signature
-    };
-
+    // 客户端速率限制（初级保护）
     try {
-        const res = await fetch(KOUBI_API, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+        const now = Date.now();
+        if (clientSentPerVideo[videoId] && now - clientSentPerVideo[videoId] < CLIENT_RATE_LIMIT.perVideoInterval) {
+            alert('操作过快，请稍后再试');
+            return;
+        }
+
+        clientSentPerVideo[videoId] = now;
+        clientSentHistory.push(now);
+        // 清理历史记录
+        clientSentHistory = clientSentHistory.filter(t => now - t <= CLIENT_RATE_LIMIT.globalInterval);
+        if (clientSentHistory.length > CLIENT_RATE_LIMIT.globalLimit) {
+            alert('操作频繁，已到达上限，请稍后再试');
+            return;
+        }
+    } catch (e) {
+        // 不要阻塞主流程
+        console.warn('[Koubi] client rate-check failed', e);
+    }
+
+    const payload = { videoId, title, cover, amount, timestamp };
+
+    // 使用后台 service worker 转发（统一在后台做进一步限速/校验）
+    try {
+        chrome.runtime.sendMessage({ type: 'KOU_BI', payload }, (resp) => {
+            if (resp && resp.ok) {
+                alert('扣币成功');
+            } else {
+                // 后台返回错误或网络异常时写离线队列
+                pushToQueue(payload);
+                alert('网络异常或被限速，已离线排队扣币：' + (resp && resp.error ? resp.error : 'unknown'));
+            }
         });
-
-        if (!res.ok) throw new Error("HTTP " + res.status);
-
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "unknown error");
-
-        alert("扣币成功");
     } catch (err) {
-        // 写入离线队列
+        // 若 messaging 不可用，回退为离线队列
         pushToQueue(payload);
-        alert("网络异常，已离线排队扣币：" + err);
+        alert('后台不可用，已离线排队扣币：' + err);
     }
 }
 
@@ -96,20 +101,29 @@ async function flushQueue() {
     console.log("尝试补发离线扣币，数量：", queue.length);
 
     const remain = [];
+    // 节流补发：每条间隔 5 秒，避免瞬时洪峰
     for (const item of queue) {
         try {
-            const res = await fetch(KOUBI_API, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(item)
+            // 使用后台转发
+            const sendPromise = new Promise((resolve) => {
+                try {
+                    chrome.runtime.sendMessage({ type: 'KOU_BI', payload: item }, (resp) => {
+                        if (resp && resp.ok) resolve(true);
+                        else resolve(false);
+                    });
+                } catch (e) { resolve(false); }
             });
-            if (!res.ok) throw new Error("HTTP " + res.status);
-            const data = await res.json();
-            if (!data.ok) throw new Error(data.error || "unknown error");
+
+            const ok = await sendPromise;
+            if (!ok) {
+                remain.push(item);
+            }
         } catch (e) {
-            // 这条还没发成功，留在队列里
             remain.push(item);
         }
+
+        // 等待 5 秒再发送下一条
+        await new Promise(r => setTimeout(r, 5000));
     }
 
     saveQueue(remain);

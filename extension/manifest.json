@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "B站扣币榜",
     "description": "“UP要不你给我赔点钱吧！”，遇到这样的视频，你可以选择给它来一发“扣币”，表达你对作者的敬畏之情，这将会记录并生成全网扣币封神榜",
-    "version": "1.0",
+    "version": "1.1",
     "icons": {
         "16": "assets/icon.png",
         "48": "assets/icon.png",
@@ -13,27 +13,30 @@
     ],
     "host_permissions": [
         "*://*.bilibili.com/*",
-        "https://api.chihiro.host/*"
+        "*://red-sun-7766.walkerbaozhi.workers.dev/*"
     ],
     "content_scripts": [
         {
             "matches": [
-                "*://*.bilibili.com/*"
-            ],
-            "js": [
-                "content-script.js"
-            ],
-            "run_at": "document_idle"
-        },
-        {
-            "matches": [
-                "https://www.bilibili.com/video/*"
+                "*://*.bilibili.com/video/*"
             ],
             "js": [
                 "koubi-main.js"
             ],
-            "run_at": "document_start",
-            "world": "MAIN"
+            "css": [
+                "content.css"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "assets/icon.png"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
         }
     ],
     "action": {

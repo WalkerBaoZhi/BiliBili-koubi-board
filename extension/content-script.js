@@ -11,5 +11,4 @@ console.log("Koubi content script loaded💡");
         (document.head || document.documentElement).appendChild(script);
     }
 
-    injectScript("inject.js");
 })();

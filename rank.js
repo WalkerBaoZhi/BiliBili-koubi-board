@@ -1,5 +1,5 @@
 // rank placeholder
-const DATA_URL = "https://api.chihiro.host/data.json";
+const DATA_URL = "https://red-sun-7766.walkerbaozhi.workers.dev/data.json";
 
 const listEl = document.getElementById("list");
 const tabs = document.querySelectorAll(".tabs button");

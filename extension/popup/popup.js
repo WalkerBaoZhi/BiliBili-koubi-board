@@ -1,6 +1,6 @@
 // popup script placeholder
 const DATA_URL =
-    "https://raw.githubusercontent.com/WalkerBaoZhi/bilibili-koubi-board/main/data.json";
+    "https://red-sun-7766.walkerbaozhi.workers.dev/rank";
 
 const listEl = document.getElementById("list");
 const tabs = document.querySelectorAll(".tabs button");
@@ -41,7 +41,7 @@ function render(range) {
         .filter((x) => x.score > 0)
         .sort((a, b) => b.score - a.score)
         .slice(0, 50);
-
+ 
     listEl.innerHTML = "";
 
     if (arr.length === 0) {
@@ -53,19 +53,23 @@ function render(range) {
         const div = document.createElement("div");
         div.className = "item";
 
-        const cover = document.createElement("img");
-        cover.className = "item-cover";
-        cover.src = item.cover || "";
-        cover.onerror = () => {
-            cover.style.background = "#ccc";
-        };
+        // 排名徽章（艺术字）
+        const badge = document.createElement("div");
+        badge.className = "rank-badge";
+        badge.innerText = idx + 1;
+        div.appendChild(badge);
 
         const main = document.createElement("div");
         main.className = "item-main";
 
+        // 清洗标题
+        let cleanTitle = item.title
+            .replace(/_哔哩哔哩_bilibili/g, "")
+            .replace(/^\d+\.\s*/, "");
+
         const title = document.createElement("div");
         title.className = "item-title";
-        title.innerText = `${idx + 1}. ${item.title}`;
+        title.innerText = `${cleanTitle}`;
 
         const meta = document.createElement("div");
         meta.className = "item-meta";
@@ -74,7 +78,6 @@ function render(range) {
         main.appendChild(title);
         main.appendChild(meta);
 
-        div.appendChild(cover);
         div.appendChild(main);
 
         div.addEventListener("click", () => {
@@ -84,6 +87,7 @@ function render(range) {
 
         listEl.appendChild(div);
     });
+
 }
 
 function setActiveTab(range) {

@@ -3,7 +3,7 @@ console.log("Koubi MAIN script running");
 /** =========================
  *  配置
  * ========================= */
-const KOUBI_API = "https://red-sun-7766.walkerbaozhi.workers.dev/koubi";
+const KOUBI_API = "https://api.chihiro.host/koubi";
 // NOTE: 不再在客户端保存 SECRET（移除硬编码），直接信任前端并在客户端做速率限制
 const QUEUE_KEY = "koubi_offline_queue_v1";
 

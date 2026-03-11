@@ -1,6 +1,6 @@
 // popup script placeholder
 const DATA_URL =
-    "https://red-sun-7766.walkerbaozhi.workers.dev/rank";
+    "https://api.chihiro.host/rank";
 
 const listEl = document.getElementById("list");
 const tabs = document.querySelectorAll(".tabs button");

@@ -1,5 +1,5 @@
 // api placeholder
-const SERVER_URL = "https://red-sun-7766.walkerbaozhi.workers.dev/koubi";
+const SERVER_URL = "https://api.chihiro.host/koubi";
 
 // 简单后台速率限制（内存计数）
 const RATE_WINDOW_MS = 60 * 60 * 1000; // 1 小时

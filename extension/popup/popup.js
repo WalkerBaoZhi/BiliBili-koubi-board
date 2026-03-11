@@ -81,7 +81,7 @@ function render(range) {
         div.appendChild(main);
 
         div.addEventListener("click", () => {
-            const url = `https://www.bilibili.com/video/av${item.id}`;
+            const url = `https://www.bilibili.com/video/BV${item.id}`;
             window.open(url, "_blank");
         });
 
